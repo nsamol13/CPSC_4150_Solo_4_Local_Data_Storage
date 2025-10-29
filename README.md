@@ -1,16 +1,25 @@
-# solo4_persistence
+# Noah Samol
+# CPSC 4150
+# Solo 4 — Local Data Storage (Persistence Across Launches)
 
-A new Flutter project.
+# What the app stores and why
+The app stores a simple list of text items (like quick notes or to-do tasks) so users can add, edit, and delete them.  
+The list persists between launches so the user never loses their data.
 
-## Getting Started
+# Storage used
+- Web: `shared_preferences` (backed by browser LocalStorage)
+- Mobile/Desktop: SQLite (via `sqflite`)
 
-This project is a starting point for a Flutter application.
+# How to run and test persistence
+bash
+flutter pub get
+flutter run -d chrome (or any other supported device/simulator/emulator)
+1. Add several items using the Add button. 
+2. Close the tab or restart the app. 
+3. The items should still be there after reload. 
+4. Use Clear All to reset the list and verify that persistence updates correctly.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Data format and edge case
+Stored as a JSON list of objects, where each object has:
+{"id": 1, "text": "Sample note", "created_at": 1730200000000}
+How this handles the edge case: if stored data becomes corrupted or unreadable, the app automatically resets the list instead of crashing.
